@@ -38,7 +38,7 @@ const SignupForm = () => {
                     onSubmit={formik.handleSubmit}
                     className="p-5 flex flex-col items-center">
                     <div className="w-full max-w-sm">
-                        <h1 className="text-2xl font-semibold text-blue-900 pt-1">Personal Info</h1>
+                        <h1 className="text-2xl font-semibold text-blue-900 pt-1">Personal info</h1>
                         <p className="text-gray-500 py-2 text-xl">Please provide your name, email address and phone number.</p>
 
                         {/* Begins Name Field */}

@@ -9,12 +9,8 @@ export default function Home() {
 
     const user = useAppSelector(state => state.userObject.value)
     const currentStep = useAppSelector(state => state.stepTracker.value)
-
-    // TODO::
-    // 2. track the steps either with formik or redux
-    // 3. fix error message by tracking the steps
     
-    console.log(user, 'form data', '..step', currentStep)
+    console.log(`userFormData: ${user} on step ${currentStep}`)
 
     return (
 
@@ -37,7 +33,7 @@ export default function Home() {
                 </div>
             </div>
 
-            <main className="flex min-h-screen flex-col items-center p-5">\
+            <main className="flex flex-col items-center p-5">
                 <div className="bg-white rounded-lg shadow-lg min-h-full min-w-full">
                     {
                         currentStep === 1 ? <SignupForm /> : <></>
