@@ -1,7 +1,9 @@
 ## Welcome to Form-Voyage
-An interactive form made to be fun while filling out fields.
+An interactive form built from a mobile first approach using tools like Redux, Formik/Yup, TailwindCSS, and TypeScript.
 
 
+## Mobile View
+![Mobile](./public/images/mobileView.png)
 
 ## Run on local machine
 
