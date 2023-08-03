@@ -1,7 +1,8 @@
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react';
-import { useAppDispatch } from '../hooks';
+import { useAppDispatch, useAppSelector } from '../hooks';
 import { setStep } from '../store/stepSlice';
+import { setPlan } from '../store/planSlice';
 
 
 interface ICustomCircle {
@@ -36,9 +37,12 @@ type PlanOptionProps = {
     imageSrc: string;
 };
 
+
 const PlanOption: React.FC<PlanOptionProps> = ({ name, price, monthlyBilling, imageSrc }) => {
+    const selectedPlanName = useAppSelector(state => state.trackPlan.value.name)
+
     return (
-        <div className='flex items-center px-3 w-full outline outline-offset-2 outline-1 outline-gray-200 mt-1 h-20 rounded-lg cursor-pointer'>
+        <div className={`flex items-center px-3 w-full outline outline-offset-2 outline-2 ${name === selectedPlanName ? 'outline-purple-600 bg-fuchsia-100' : 'outline-gray-200'} mt-1 h-20 rounded-lg cursor-pointer`}>
             <div className='mb-5'>
             <Image src={imageSrc} alt="background image" priority={true} width={45} height={45} />
             </div>
@@ -50,7 +54,32 @@ const PlanOption: React.FC<PlanOptionProps> = ({ name, price, monthlyBilling, im
                 <span className='text-gray-500 flex flex-col'>
                     {`$${price}/${monthlyBilling ? 'mo' : 'yr'}`}
                     {!monthlyBilling && <span className='text-blue-900'>2 months free</span>}
-                    {monthlyBilling && <span className='text-white'>__________</span>}
+                    {monthlyBilling && <span className='text-transparent'>__________</span>}
+                </span>
+            </div>
+        </div>
+    );
+};
+
+
+
+const AddOn: React.FC<PlanOptionProps> = ({ name, price, monthlyBilling, imageSrc }) => {
+    const selectedPlanName = useAppSelector(state => state.trackPlan.value.name)
+
+    return (
+        <div className={`flex items-center px-3 w-full outline outline-offset-2 outline-2 ${name === selectedPlanName ? 'outline-purple-600 bg-fuchsia-100' : 'outline-gray-200'} mt-1 h-20 rounded-lg cursor-pointer`}>
+            <div className='mb-5'>
+                <Image src={imageSrc} alt="background image" priority={true} width={45} height={45} />
+            </div>
+            <div className='ms-3'>
+                <span className='font-semibold text-blue-900'>
+                    {name}
+                </span>
+                <br />
+                <span className='text-gray-500 flex flex-col'>
+                    {`$${price}/${monthlyBilling ? 'mo' : 'yr'}`}
+                    {!monthlyBilling && <span className='text-blue-900'>2 months free</span>}
+                    {monthlyBilling && <span className='text-transparent'>__________</span>}
                 </span>
             </div>
         </div>

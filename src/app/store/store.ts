@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit'
 import userReducer from './formSlice'
 import stepReducer from './stepSlice'
+import selectPlanReducer from './planSlice'
 
 export const store = configureStore({
     reducer: {
         userObject: userReducer,
-        stepTracker: stepReducer
+        stepTracker: stepReducer,
+        trackPlan: selectPlanReducer,
     }
 })
 
