@@ -5,10 +5,7 @@ export interface PlanState {
     value: {
         name: string
         price: number
-        addOns: {
-            service: string
-            price: number
-        }
+        addOns: Array<object>
         monthlyBill: boolean
     }
 }
@@ -18,10 +15,7 @@ const initialState: PlanState = {
     value: {
         name: 'Arcade',
         price: 0,
-        addOns: {
-            service: '',
-            price: 0
-        },
+        addOns: [{}],
         monthlyBill: true
     }
 }
