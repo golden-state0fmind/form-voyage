@@ -11,22 +11,37 @@ const SignupForm = () => {
     const user = useAppSelector(state => state.userObject.value)
     const currentStep = useAppSelector(state => state.stepTracker.value)
 
+    function formatPhoneNumber(phoneNumber: string): string {
+        const trimmedPhoneNumber = phoneNumber.slice(0, 12); // Cut off at 10 characters
+        const phoneNumberRegex = /(\d{3})(\d{3})(\d{4})/;
+
+        const match = trimmedPhoneNumber.match(phoneNumberRegex);
+        if (!match) {
+            // Return the original value if it doesn't match the expected format
+            return trimmedPhoneNumber;
+        }
+
+        return `${match[1]} ${match[2]} ${match[3]}`;
+    }
+
+
+
     return (
         <Formik
             initialValues={user}
             validationSchema={
                 Yup.object({
                     name: Yup.string()
-                        .min(2, 'Must be more than 2 characters')
-                        .max(15, 'Must be 15 characters or less')
-                        .required('This field is required'),
+                        .min(2, 'Must be more than 2 characters.')
+                        .max(15, 'Must be 15 characters or less.')
+                        .required('This field is required.'),
                     phone: Yup.string()
-                        .min(7, 'Must be more than 7 characters')
-                        .max(10, 'Must be 10 characters or less')
-                        .required('This field is required'),
+                        .min(10, 'Pleas include area code.')
+                        .max(13, 'Too many characters.')
+                        .required('This field is required.'),
                     email: Yup.string()
-                        .email('Invalid email address')
-                        .required('This field is required'),
+                        .email('Invalid email address.')
+                        .required('This field is required.'),
                 })}
             onSubmit={values => {
                 dispatch(setUser(values))
@@ -81,6 +96,7 @@ const SignupForm = () => {
                                 id="phone"
                                 type="phone"
                                 {...formik.getFieldProps('phone')}
+                                value={formatPhoneNumber(formik.values.phone)}
                                 className="w-full outline outline-offset-2 outline-1 outline-gray-200 mt-1 h-8 rounded"
                             />
                         </div>
