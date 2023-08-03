@@ -33,10 +33,10 @@ const SignupForm = () => {
                 Yup.object({
                     name: Yup.string()
                         .min(2, 'Must be more than 2 characters.')
-                        .max(15, 'Must be 15 characters or less.')
+                        .max(15, 'Max 15 characters.')
                         .required('This field is required.'),
                     phone: Yup.string()
-                        .min(10, 'Pleas include area code.')
+                        .min(10, 'Please include area code.')
                         .max(13, 'Too many characters.')
                         .required('This field is required.'),
                     email: Yup.string()
