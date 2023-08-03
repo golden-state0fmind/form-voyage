@@ -4,13 +4,19 @@ import { useAppSelector } from '@/app/hooks';
 import { CustomCircle } from '../src/app/components/utilities';
 import { SignupForm } from '@/app/components/SignupForm';
 import { SelectPlan } from '@/app/components/SelectPlan';
+import { PickAddOns } from '@/app/components/PickAddOns';
 
 export default function Home() {
-
+    const totalSteps = 4;
+    const customCircles = [];
     const user = useAppSelector(state => state.userObject.value)
     const currentStep = useAppSelector(state => state.stepTracker.value)
-    
-    console.log(`userFormData: ${user} on step ${currentStep}`)
+
+    for (let step = 1; step <= totalSteps; step++) {
+        customCircles.push(
+            <CustomCircle key={step} step={step} activeStep={currentStep} />
+        );
+    }
 
     return (
 
@@ -20,27 +26,21 @@ export default function Home() {
                     src="/images/bg-sidebar-mobile.svg" // The path is relative to the `public` directory
                     alt="background image"
                     priority={true}
-                    width={450} // Set the desired width for the image (in pixels)
+                    width={769} // Set the desired width for the image (in pixels)
                     height={300} // Set the desired height for the image (in pixels)
                 />
             </div>
             <div className="flex flex-row justify-center mt-5">
                 <div className='flex flex-row md:flex-col justify-between w-48' >
-                    <CustomCircle step={1} activeStep={currentStep} />
-                    <CustomCircle step={2} activeStep={currentStep} />
-                    <CustomCircle step={3} activeStep={currentStep} />
-                    <CustomCircle step={4} activeStep={currentStep} />
+                    {customCircles}
                 </div>
             </div>
 
             <main className="flex flex-col items-center p-5">
                 <div className="bg-white rounded-lg shadow-lg min-h-full min-w-full">
-                    {
-                        currentStep === 1 ? <SignupForm /> : <></>
-                    }
-                    {
-                        currentStep === 2 ? <SelectPlan /> : <></>
-                    }
+                    {currentStep === 1 && <SignupForm />}
+                    {currentStep === 2 && <SelectPlan />}
+                    {currentStep === 3 && <PickAddOns />}
                 </div>
             </main>
             

@@ -1,69 +1,115 @@
 import * as Yup from 'yup';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from "../hooks"
 import { Formik } from 'formik';
 import { Footer, PlanOption, ToggleSwitch } from "./utilities"
 import { setUser } from "../store/formSlice"
 import { setStep } from "../store/stepSlice"
+import {setPlan} from '../store/planSlice'
 export interface IBillingPlan {
     tier1: {
         name: string
         price: number
+        addOns: {
+            service: string
+            price: number
+        }
+        monthlyBill: boolean
     }
     tier2: {
         name: string
         price: number
+        addOns: {
+            service: string
+            price: number
+        }
+        monthlyBill: boolean
     }
     tier3: {
         name: string
         price: number
+        addOns: {
+            service: string
+            price: number
+        }
+        monthlyBill: boolean
     }
 }
 
 const monthlyBilling: IBillingPlan = {
     tier1: {
         name: 'Arcade',
-        price: 9
+        price: 9,
+        addOns: {
+            service: '',
+            price: 0
+        },
+        monthlyBill: true
     },
     tier2: {
         name: 'Advanced',
-        price: 12
+        price: 12,
+        addOns: {
+            service: '',
+            price: 0
+        },
+        monthlyBill: true
     },
     tier3: {
         name: 'Pro',
-        price: 15
+        price: 15,
+        addOns: {
+            service: '',
+            price: 0
+        },
+        monthlyBill: true
     }
 }
 
 const SelectPlan = () => {
     const dispatch = useAppDispatch()
-    const [monthlyPlanType, setMonthlyPlanType] = useState(true)
     const user = useAppSelector(state => state.userObject.value)
     const currentStep = useAppSelector(state => state.stepTracker.value)
+    const currentPlan = useAppSelector(state => state.trackPlan.value)
+    const [monthlyPlanType, setMonthlyPlanType] = useState(currentPlan.monthlyBill)
     const [selectedPlan, setSelectedPlan] = useState<IBillingPlan[keyof IBillingPlan] | null>(null);
     const [userPlans, setUserPlans] = useState<IBillingPlan>(monthlyBilling)
     
     // Function to handle plan selection
     const handlePlanSelect = (plan: IBillingPlan[keyof IBillingPlan]) => {
+        
         if (!monthlyPlanType) {
-            setSelectedPlan({ ...plan, price: monthlyPlanType ? plan.price : plan.price * 10 })
+            setSelectedPlan({
+                ...plan,
+                price: monthlyPlanType ? plan.price : plan.price * 10,
+                monthlyBill: monthlyPlanType
+            });
+            dispatch(setPlan({
+                ...plan,
+                price: monthlyPlanType ? plan.price : plan.price * 10,
+                monthlyBill: monthlyPlanType
+            }));
         } else {
             setSelectedPlan(plan);
+            dispatch(setPlan(plan));
         }
     };
-    console.log(monthlyPlanType)
+
+    const handleToggle = () => {
+        setMonthlyPlanType(!monthlyPlanType);
+        const newMonthlyPlanType = !monthlyPlanType;
+        dispatch(setPlan({ ...currentPlan, monthlyBill: newMonthlyPlanType }));
+    };
+    // TODO-->
+    // 3. Clean up code before next push
 
     return (
         
         <Formik
             initialValues={user}
-            validationSchema={
-                Yup.object({
-                    billing: Yup.string().required('Please select a billing period'),
-                })}
+            validationSchema={null}     
             onSubmit={values => {
-                console.log(values)
-                //dispatch(setStep(3))
+                dispatch(setStep(3))
             }}
         >
             {formik => (
@@ -90,7 +136,7 @@ const SelectPlan = () => {
                         <PlanOption name={userPlans.tier3.name} price={monthlyPlanType ? userPlans.tier3.price : (userPlans.tier3.price * 10)} monthlyBilling={monthlyPlanType} imageSrc={'/images/icon-pro.svg'} />
                     </div>
                     {/* Toggle Plans Monthly/Yearly */}
-                    <div className='w-full flex flex-col items-center bg-gray-100 h-12 rounded-md' onClick={() => setMonthlyPlanType(!monthlyPlanType)}>
+                    <div className='w-full flex flex-col items-center bg-gray-100 h-12 rounded-md' onClick={handleToggle}>
                         <div className='flex font-semibold pt-3 cursor-pointer'>
                             <span className={monthlyPlanType ? `text-blue-900 mr-3` : `text-gray-500 mr-3`}>Monthly</span>
                             <ToggleSwitch onToggle={setMonthlyPlanType} checked={monthlyPlanType} />
