@@ -61,25 +61,33 @@ const PlanOption: React.FC<PlanOptionProps> = ({ name, price, monthlyBilling, im
     );
 };
 
+export type AddOnProps = {
+    name: string;
+    price: number;
+    monthlyBilling: boolean;
+    description: string;
+    checked: boolean;
+};
 
-
-const AddOn: React.FC<PlanOptionProps> = ({ name, price, monthlyBilling, imageSrc }) => {
-    const selectedPlanName = useAppSelector(state => state.trackPlan.value.name)
+const AddOn: React.FC<AddOnProps> = ({ name, price, monthlyBilling, description, checked }) => {
+    const addOnFinalPrice = monthlyBilling ? price : (price * 10)
 
     return (
-        <div className={`flex items-center px-3 w-full outline outline-offset-2 outline-2 ${name === selectedPlanName ? 'outline-purple-600 bg-fuchsia-100' : 'outline-gray-200'} mt-1 h-20 rounded-lg cursor-pointer`}>
-            <div className='mb-5'>
-                <Image src={imageSrc} alt="background image" priority={true} width={45} height={45} />
+        <div className={`flex items-center justify-between px-3 w-full outline outline-offset-2 outline-2 ${checked ? 'outline-purple-600 bg-fuchsia-100' : 'outline-gray-200'} mt-1 h-20 rounded-lg cursor-pointer`}>
+            <div className="flex items-center">
+                <input className={`form-check-input appearance-none h-5 w-5 border border-gray-300 rounded-sm ${checked ? 'border-purple-900 bg-purple-900' : 'bg-white'} checked:focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-3 cursor-pointer`} type="checkbox" value={''} id={`${name}`} />
+                <label className={`form-check-label inline-block text-gray-800`} htmlFor={`${name}`}>
+                    <span className='font-semibold text-blue-900'>
+                        {name}
+                    </span>
+                    <span className='text-gray-500 flex flex-col'>
+                        {description}
+                    </span>
+                </label>
             </div>
-            <div className='ms-3'>
-                <span className='font-semibold text-blue-900'>
-                    {name}
-                </span>
-                <br />
+            <div className=''>
                 <span className='text-gray-500 flex flex-col'>
-                    {`$${price}/${monthlyBilling ? 'mo' : 'yr'}`}
-                    {!monthlyBilling && <span className='text-blue-900'>2 months free</span>}
-                    {monthlyBilling && <span className='text-transparent'>__________</span>}
+                    {`+$${addOnFinalPrice}/${monthlyBilling ? 'mo' : 'yr'}`}
                 </span>
             </div>
         </div>
@@ -135,4 +143,4 @@ const Footer = ({currentStep}: IFooter) => {
     )
 }
 
-export { CustomCircle, Footer, PlanOption, ToggleSwitch };
+export { CustomCircle, Footer, PlanOption, ToggleSwitch, AddOn };
