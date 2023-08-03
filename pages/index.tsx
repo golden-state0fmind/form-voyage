@@ -36,8 +36,8 @@ export default function Home() {
                 </div>
             </div>
 
-            <main className="flex flex-col items-center p-5">
-                <div className="bg-white rounded-lg shadow-lg min-h-full min-w-full">
+            <main className="flex flex-col items-center p-4">
+                <div className="bg-white rounded-lg shadow-lg min-h-full min-w-full pb-4">
                     {currentStep === 1 && <SignupForm />}
                     {currentStep === 2 && <SelectPlan />}
                     {currentStep === 3 && <PickAddOns />}
