@@ -2,10 +2,9 @@ import { useAppSelector } from "../hooks"
 import { Footer } from "./utilities"
 
 export const FinishUp = () => {
-    
+    const user = useAppSelector(state => state.userObject.value)
     const currentPlan = useAppSelector(state => state.trackPlan.value)
 
-    console.log(currentPlan, 'current plan')
     
     return (
         <>

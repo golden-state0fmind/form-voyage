@@ -117,7 +117,7 @@ const ToggleSwitch: React.FC<{ onToggle: (checked: boolean) => void; checked: bo
 
 const Footer = () => {
     const dispatch = useAppDispatch()
-    const currentStep:number = useAppSelector(state => state.stepTracker.value)
+    const currentStep: number = useAppSelector(state => state.stepTracker.value)
     
     return (
         <footer className='bg-white md:hidden p-4 text-center fixed bottom-0 w-full flex justify-between items-center' >
@@ -131,7 +131,7 @@ const Footer = () => {
                     : <div></div>
             }
             <button
-                onClick={() => dispatch(setStep(currentStep + 1))}
+                onClick={() => currentStep !== 1 && 5 ? dispatch(setStep(currentStep + 1)) : null}
                 type='submit'
                 className='px-4 py-2 bg-blue-900 text-white rounded'>
                 Next Step

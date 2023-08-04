@@ -18,7 +18,7 @@ export interface PlanState {
 export const initialState: PlanState = {
     value: {
         name: 'Arcade',
-        price: 0,
+        price: 9,
         addOns: [
             { name: 'Online Service', price: 1, description: 'Access to multiplayer games.', selected: false },
             { name: 'Larger storage', price: 2, description: 'Extra 1TB of cloud storage.', selected: false },

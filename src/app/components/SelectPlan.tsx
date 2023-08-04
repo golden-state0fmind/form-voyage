@@ -54,7 +54,6 @@ const SelectPlan = () => {
         }
     }
     const [userPlans, setUserPlans] = useState<IBillingPlan>(monthlyBilling)
-    console.log(user)
     
     // Function to handle plan selection
     const handlePlanSelect = (plan: IBillingPlan[keyof IBillingPlan]) => {
