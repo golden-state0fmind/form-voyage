@@ -2,8 +2,6 @@ import Image from 'next/image'
 import React, { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import { setStep } from '../store/stepSlice';
-import { setPlan } from '../store/planSlice';
-
 
 interface ICustomCircle {
     step: number
@@ -116,12 +114,10 @@ const ToggleSwitch: React.FC<{ onToggle: (checked: boolean) => void; checked: bo
         </label>
     );
 };
-interface IFooter {
-    currentStep: number
-}
 
-const Footer = ({currentStep}: IFooter) => {
+const Footer = () => {
     const dispatch = useAppDispatch()
+    const currentStep:number = useAppSelector(state => state.stepTracker.value)
     
     return (
         <footer className='bg-white md:hidden p-4 text-center fixed bottom-0 w-full flex justify-between items-center' >
@@ -135,6 +131,7 @@ const Footer = ({currentStep}: IFooter) => {
                     : <div></div>
             }
             <button
+                onClick={() => dispatch(setStep(currentStep + 1))}
                 type='submit'
                 className='px-4 py-2 bg-blue-900 text-white rounded'>
                 Next Step

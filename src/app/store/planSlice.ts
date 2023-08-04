@@ -5,17 +5,25 @@ export interface PlanState {
     value: {
         name: string
         price: number
-        addOns: Array<object>
+        addOns: [
+            { name: string, price: number, description: string, selected: false },
+            { name: string, price: number, description: string, selected: false },
+            { name: string, price: number, description: string, selected: false }
+        ]
         monthlyBill: boolean
     }
 }
 
 // Define the initial state using that type
-const initialState: PlanState = {
+export const initialState: PlanState = {
     value: {
         name: 'Arcade',
         price: 0,
-        addOns: [{}],
+        addOns: [
+            { name: 'Online Service', price: 1, description: 'Access to multiplayer games.', selected: false },
+            { name: 'Larger storage', price: 2, description: 'Extra 1TB of cloud storage.', selected: false },
+            { name: 'Customizable profile', price: 2, description: 'Custom theme on your profile.', selected: false }
+        ],
         monthlyBill: true
     }
 }

@@ -1,9 +1,7 @@
-import * as Yup from 'yup';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from "../hooks"
 import { Formik } from 'formik';
 import { Footer, PlanOption, ToggleSwitch } from "./utilities"
-import { setUser } from "../store/formSlice"
 import { setStep } from "../store/stepSlice"
 import {setPlan} from '../store/planSlice'
 export interface IBillingPlan {
@@ -69,7 +67,6 @@ const monthlyBilling: IBillingPlan = {
 const SelectPlan = () => {
     const dispatch = useAppDispatch()
     const user = useAppSelector(state => state.userObject.value)
-    const currentStep = useAppSelector(state => state.stepTracker.value)
     const currentPlan = useAppSelector(state => state.trackPlan.value)
     const [monthlyPlanType, setMonthlyPlanType] = useState(currentPlan.monthlyBill)
     const [selectedPlan, setSelectedPlan] = useState<IBillingPlan[keyof IBillingPlan] | null>(null);
@@ -100,8 +97,6 @@ const SelectPlan = () => {
         const newMonthlyPlanType = !monthlyPlanType;
         dispatch(setPlan({ ...currentPlan, monthlyBill: newMonthlyPlanType }));
     };
-    // TODO-->
-    // 3. Clean up code before next push
 
     return (
         
@@ -144,7 +139,7 @@ const SelectPlan = () => {
                         </div>
                     </div>
 
-                    <Footer currentStep={currentStep} />
+                    <Footer />
                 </form>
             )}
         </Formik>

@@ -9,7 +9,6 @@ import { Footer } from './utilities';
 const SignupForm = () => {
     const dispatch = useAppDispatch()
     const user = useAppSelector(state => state.userObject.value)
-    const currentStep = useAppSelector(state => state.stepTracker.value)
 
     function formatPhoneNumber(phoneNumber: string): string {
         const trimmedPhoneNumber = phoneNumber.slice(0, 12); // Cut off at 10 characters
@@ -102,7 +101,7 @@ const SignupForm = () => {
                         </div>
                         {/* Ends PhoneNumber Field */}
                     </div>
-                    <Footer currentStep={currentStep}  />
+                    <Footer />
                 </form>
             )}
         </Formik>
