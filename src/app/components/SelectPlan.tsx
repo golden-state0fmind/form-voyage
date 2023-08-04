@@ -8,61 +8,24 @@ export interface IBillingPlan {
     tier1: {
         name: string
         price: number
-        addOns: {
-            service: string
-            price: number
-        }
+        addOns: Array<{ name: string; price: number; description: string; selected: boolean }>
         monthlyBill: boolean
     }
     tier2: {
         name: string
         price: number
-        addOns: {
-            service: string
-            price: number
-        }
+        addOns: Array<{ name: string; price: number; description: string; selected: boolean }>
         monthlyBill: boolean
     }
     tier3: {
         name: string
         price: number
-        addOns: {
-            service: string
-            price: number
-        }
+        addOns: Array<{ name: string; price: number; description: string; selected: boolean }>
         monthlyBill: boolean
     }
 }
 
-const monthlyBilling: IBillingPlan = {
-    tier1: {
-        name: 'Arcade',
-        price: 9,
-        addOns: {
-            service: '',
-            price: 0
-        },
-        monthlyBill: true
-    },
-    tier2: {
-        name: 'Advanced',
-        price: 12,
-        addOns: {
-            service: '',
-            price: 0
-        },
-        monthlyBill: true
-    },
-    tier3: {
-        name: 'Pro',
-        price: 15,
-        addOns: {
-            service: '',
-            price: 0
-        },
-        monthlyBill: true
-    }
-}
+
 
 const SelectPlan = () => {
     const dispatch = useAppDispatch()
@@ -70,11 +33,31 @@ const SelectPlan = () => {
     const currentPlan = useAppSelector(state => state.trackPlan.value)
     const [monthlyPlanType, setMonthlyPlanType] = useState(currentPlan.monthlyBill)
     const [selectedPlan, setSelectedPlan] = useState<IBillingPlan[keyof IBillingPlan] | null>(null);
+    const monthlyBilling: IBillingPlan = {
+        tier1: {
+            name: 'Arcade',
+            price: 9,
+            addOns: currentPlan.addOns,
+            monthlyBill: true
+        },
+        tier2: {
+            name: 'Advanced',
+            price: 12,
+            addOns: currentPlan.addOns,
+            monthlyBill: true
+        },
+        tier3: {
+            name: 'Pro',
+            price: 15,
+            addOns: currentPlan.addOns,
+            monthlyBill: true
+        }
+    }
     const [userPlans, setUserPlans] = useState<IBillingPlan>(monthlyBilling)
+    console.log(user)
     
     // Function to handle plan selection
     const handlePlanSelect = (plan: IBillingPlan[keyof IBillingPlan]) => {
-        
         if (!monthlyPlanType) {
             setSelectedPlan({
                 ...plan,
