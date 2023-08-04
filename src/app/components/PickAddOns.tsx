@@ -1,26 +1,22 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../hooks";
-import { initialState, setPlan } from "../store/planSlice";
+import { setPlan } from "../store/planSlice";
 import { AddOn, Footer } from "./utilities"
 
 const PickAddOns = () => {
-    const dispatch = useAppDispatch()
-    const startingState = initialState.value.addOns
-    const [addOns, setAddOns] = useState<Array<any>>(startingState)
-    const currentPlan = useAppSelector(state => state.trackPlan.value)
+    const dispatch = useAppDispatch();
+    const currentPlan = useAppSelector(state => state.trackPlan.value);
+    const [addOns, setAddOns] = useState<Array<any>>(currentPlan.addOns);
 
-    const handlePlanSelect = (addOnName: string, index: number) => {
-        console.log(addOnName)
-        setAddOns(prevAddOns => {
-            const updatedAddOns = prevAddOns.map((addOn, i) => {
-                if (i === index) {
-                    return { ...addOn, selected: !addOn.selected };
-                }
-                return addOn;
-            });
-            updateCurrentPlan(updatedAddOns);
-            return updatedAddOns;
+    const handlePlanSelect = (index: number) => {
+        const updatedAddOns = addOns.map((addOn, i) => {
+            if (i === index) {
+                return { ...addOn, selected: !addOn.selected };
+            }
+            return addOn;
         });
+        updateCurrentPlan(updatedAddOns);
+        setAddOns(updatedAddOns);
     };
 
     const updateCurrentPlan = (updatedAddOns: typeof addOns) => {
@@ -31,6 +27,10 @@ const PickAddOns = () => {
         dispatch(setPlan(updatedPlan));
     };
 
+    useEffect(() => {
+        setAddOns(currentPlan.addOns); // Sync addOns state with Redux on mount
+    }, [currentPlan.addOns]);
+
     return (
         <>
             <div className='p-5 flex flex-col items-center'>
@@ -38,12 +38,11 @@ const PickAddOns = () => {
                     <h1 className="text-2xl font-semibold text-blue-900 pt-1">Pick add-ons</h1>
                     <p className="text-gray-500 py-2 text-xl">Add-ons help enhance your gaming experience.</p>
                 </div>
-                {currentPlan.addOns.map((addOn, index) => (
-                    <div className={`w-full ${index === 1 ? 'py-4' : ''}`} key={addOn.name} onClick={() => handlePlanSelect(addOn.name, index)}>
-                        <AddOn name={addOn.name} price={addOn.price} monthlyBilling={currentPlan.monthlyBill} description={addOn.description} checked={addOn.selected} />
-                    </div>
-                ))}
-                
+                {addOns.map((addOn, index) => (
+                        <div className={`w-full ${index === 1 ? 'py-4' : ''}`} key={addOn.name} onClick={() => handlePlanSelect(index)}>
+                            <AddOn name={addOn.name} price={addOn.price} monthlyBilling={currentPlan.monthlyBill} description={addOn.description} checked={addOn.selected} />
+                        </div>
+                    ))}
                 <Footer />
             </div>
         </>
