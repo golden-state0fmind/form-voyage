@@ -100,9 +100,11 @@ interface IReceiptRows {
     activeAmountServices: number
 }
 
-const RecieptRows = ({ name, price, monthlyBill, index, activeAmountServices}:IReceiptRows) => {
+const RecieptRows = ({ name, price, monthlyBill, index, activeAmountServices }: IReceiptRows) => {
+    const addBottomRounded = index >= (activeAmountServices-1);
+
     return (
-        <div className={`flex items-center justify-between px-3 w-full bg-gray-100 outline outline-offset-0 outline-0 h-12 ${index === (activeAmountServices-1) ? "rounded-b-lg" : ""} `}>
+        <div className={`flex items-center justify-between px-3 w-full bg-gray-100 outline outline-offset-0 outline-0 h-12 ${addBottomRounded ? "rounded-b-lg" : ""} `}>
             <div className="flex items-center">
                 <label className={`form-check-label inline-block text-gray-500`}>
                         {name}

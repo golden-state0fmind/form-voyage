@@ -11,7 +11,6 @@ import { ThankYou } from '@/app/components/ThankYou';
 export default function Home() {
     const totalSteps = 4;
     const customCircles = [];
-    const user = useAppSelector(state => state.userObject.value)
     const currentStep = useAppSelector(state => state.stepTracker.value)
 
     for (let step = 1; step <= totalSteps; step++) {
