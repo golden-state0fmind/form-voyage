@@ -92,6 +92,34 @@ const AddOn: React.FC<AddOnProps> = ({ name, price, monthlyBilling, description,
     );
 };
 
+interface IReceiptRows {
+    name: string
+    price: number
+    monthlyBill: boolean
+    index: number
+    activeAmountServices: number
+}
+
+const RecieptRows = ({ name, price, monthlyBill, index, activeAmountServices}:IReceiptRows) => {
+    return (
+        <div className={`flex items-center justify-between px-3 w-full bg-gray-100 outline outline-offset-0 outline-0 h-12 ${index === (activeAmountServices-1) ? "rounded-b-lg" : ""} `}>
+            <div className="flex items-center">
+                <label className={`form-check-label inline-block text-gray-500`}>
+                        {name}
+                </label>
+            </div>
+            <div className=''>
+                <span className='text-blue-800 flex flex-col'>
+                    +${price}
+                    {
+                        monthlyBill ? "/mo" : "/yr"
+                    }
+                </span>
+            </div>
+        </div>
+    )
+}
+
 const ToggleSwitch: React.FC<{ onToggle: (checked: boolean) => void; checked: boolean }> = ({ onToggle, checked }) => {
     const [togglePosition, setTogglePosition] = useState(checked ? '' : 'translate-x-full');
 
@@ -133,11 +161,13 @@ const Footer = () => {
             <button
                 onClick={() => currentStep !== 1 && 5 ? dispatch(setStep(currentStep + 1)) : null}
                 type='submit'
-                className='px-4 py-2 bg-blue-900 text-white rounded'>
-                Next Step
+                className={`px-4 py-2 ${currentStep === 4 ? "bg-purple-900" : "bg-blue-900"} text-white rounded`}>
+                {
+                    currentStep === 4 ? "Confirm" : "Next Step"
+                }
             </button>
         </footer>
     )
 }
 
-export { CustomCircle, Footer, PlanOption, ToggleSwitch, AddOn };
+export { CustomCircle, Footer, PlanOption, ToggleSwitch, AddOn, RecieptRows };
