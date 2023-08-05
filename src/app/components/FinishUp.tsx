@@ -7,26 +7,34 @@ export const FinishUp = () => {
     const dispatch = useAppDispatch()
     const currentPlan = useAppSelector(state => state.trackPlan.value)
     const [activeAmountServices, setActiveAmountServices] = useState<number>(0);
+    const [totalAddOnPrice, setTotalAddOnPrice] = useState<number>(0);
 
     const handleChangeMonthlyBilling = () => {
         dispatch(setPlan({
             ...currentPlan,
-            
             monthlyBill: !currentPlan.monthlyBill
         }));
     }
 
     useEffect(() => {
         let activeCount = 0;
+        let totalSelectedPrice = 0;
 
         currentPlan.addOns.forEach((addOn) => {
             if (addOn.selected) {
                 activeCount++;
+                if (currentPlan.monthlyBill) {
+                    totalSelectedPrice += addOn.price;
+                } else {
+                    totalSelectedPrice += addOn.price;
+                    totalAddOnPrice * 10
+                }
             }
         });
 
         setActiveAmountServices(activeCount);
-    }, [currentPlan.addOns]);
+        setTotalAddOnPrice(totalSelectedPrice);
+    }, [currentPlan.addOns, currentPlan.monthlyBill]);
     
     return (
         <>
@@ -39,7 +47,7 @@ export const FinishUp = () => {
                     <div className="flex items-center">
                         <div className={``}>
                             <span className='font-semibold text-blue-900'>
-                                {currentPlan.name} {currentPlan.monthlyBill ? "(Monthly)" : "(Yearly)" }
+                                {currentPlan.name} {currentPlan.monthlyBill ? "(Monthly)" : "(Yearly)"}
                             </span>
                             <span onClick={handleChangeMonthlyBilling} className='text-gray-500 flex flex-col cursor-pointer underline underline-offset-1'>
                                 Change
@@ -58,6 +66,19 @@ export const FinishUp = () => {
                 {currentPlan.addOns.map((addOn, index) => (
                     addOn.selected && <RecieptRows key={addOn.name} name={addOn.name} price={addOn.price} monthlyBill={currentPlan.monthlyBill} index={index} activeAmountServices={activeAmountServices} />
                 ))}
+                <div className="flex items-center justify-between px-3 w-full pt-7">
+                    <div className="items-center" >
+                        <span className="text-gray-500 pt-7 font-semiboold">
+                            Total {currentPlan.monthlyBill ? "per (month)" : "per (year)"}
+                        </span>
+                    </div>
+                    <span className='text-blue-900 font-semibold'>
+                        +${currentPlan.monthlyBill ? (currentPlan.price + totalAddOnPrice) : (currentPlan.price * 10) + (totalAddOnPrice * 10)}
+                        {
+                            currentPlan.monthlyBill ? "/mo" : "/yr"
+                        }
+                    </span>
+                </div>
                 <Footer />
             </div>
         </>
