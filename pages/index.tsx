@@ -6,6 +6,7 @@ import { SignupForm } from '@/app/components/SignupForm';
 import { SelectPlan } from '@/app/components/SelectPlan';
 import { PickAddOns } from '@/app/components/PickAddOns';
 import { FinishUp } from '@/app/components/FinishUp';
+import { ThankYou } from '@/app/components/ThankYou';
 
 export default function Home() {
     const totalSteps = 4;
@@ -43,6 +44,7 @@ export default function Home() {
                     {currentStep === 2 && <SelectPlan />}
                     {currentStep === 3 && <PickAddOns />}
                     {currentStep === 4 && <FinishUp />}
+                    {currentStep === 5 && <ThankYou />}
                 </div>
             </main>
             
