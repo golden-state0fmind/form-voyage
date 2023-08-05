@@ -48,7 +48,7 @@ export const FinishUp = () => {
                     </div>
                 </div>
                 {currentPlan.addOns.map((addOn, index) => (
-                    addOn.selected && <RecieptRows name={addOn.name} price={addOn.price} monthlyBill={currentPlan.monthlyBill} index={index} activeAmountServices={activeAmountServices} />
+                    addOn.selected && <RecieptRows key={addOn.name} name={addOn.name} price={addOn.price} monthlyBill={currentPlan.monthlyBill} index={index} activeAmountServices={activeAmountServices} />
                 ))}
                 <Footer />
             </div>
