@@ -1,11 +1,20 @@
 import { useEffect, useState } from "react"
-import { useAppSelector } from "../hooks"
+import { useAppDispatch, useAppSelector } from "../hooks"
 import { Footer, RecieptRows } from "./utilities"
+import { setPlan } from "../store/planSlice"
 
 export const FinishUp = () => {
-    const user = useAppSelector(state => state.userObject.value)
+    const dispatch = useAppDispatch()
     const currentPlan = useAppSelector(state => state.trackPlan.value)
     const [activeAmountServices, setActiveAmountServices] = useState<number>(0);
+
+    const handleChangeMonthlyBilling = () => {
+        dispatch(setPlan({
+            ...currentPlan,
+            
+            monthlyBill: !currentPlan.monthlyBill
+        }));
+    }
 
     useEffect(() => {
         let activeCount = 0;
@@ -18,7 +27,6 @@ export const FinishUp = () => {
 
         setActiveAmountServices(activeCount);
     }, [currentPlan.addOns]);
-    console.log(currentPlan.addOns)
     
     return (
         <>
@@ -29,18 +37,18 @@ export const FinishUp = () => {
                 </div>
                 <div className={`flex items-center justify-between px-3 w-full bg-gray-100 outline outline-offset-0 outline-0 mt-1 h-20 rounded-t-lg`}>
                     <div className="flex items-center">
-                        <label className={`form-check-label inline-block text-gray-800`}>
+                        <div className={``}>
                             <span className='font-semibold text-blue-900'>
-                                {currentPlan.name}
+                                {currentPlan.name} {currentPlan.monthlyBill ? "(Monthly)" : "(Yearly)" }
                             </span>
-                            <span className='text-gray-500 flex flex-col cursor-pointer'>
-                                {'change'}
+                            <span onClick={handleChangeMonthlyBilling} className='text-gray-500 flex flex-col cursor-pointer underline underline-offset-1'>
+                                Change
                             </span>
-                        </label>
+                        </div>
                     </div>
                     <div className=''>
-                        <span className='text-blue-900 flex flex-col'>
-                            ${currentPlan.price}
+                        <span className='text-blue-900 font-semibold flex flex-col'>
+                            ${currentPlan.monthlyBill ? currentPlan.price : currentPlan.price * 10}
                             {
                                 currentPlan.monthlyBill ? "/mo" : "/yr"
                             }

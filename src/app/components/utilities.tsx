@@ -110,7 +110,7 @@ const RecieptRows = ({ name, price, monthlyBill, index, activeAmountServices}:IR
             </div>
             <div className=''>
                 <span className='text-blue-800 flex flex-col'>
-                    +${price}
+                    +${monthlyBill ? price : price * 10}
                     {
                         monthlyBill ? "/mo" : "/yr"
                     }
