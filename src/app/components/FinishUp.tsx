@@ -12,7 +12,7 @@ export const FinishUp = () => {
     const handleChangeMonthlyBilling = () => {
         dispatch(setPlan({
             ...currentPlan,
-            monthlyBill: !currentPlan.monthlyBill
+            monthlyBill: !currentPlan.monthlyBill,
         }));
     }
 
@@ -36,6 +36,7 @@ export const FinishUp = () => {
         setTotalAddOnPrice(totalSelectedPrice);
     }, [currentPlan.addOns, currentPlan.monthlyBill]);
     
+    console.log(currentPlan.monthlyBill, currentPlan.price)
     return (
         <>
             <div className='p-5 flex flex-col items-center'>
@@ -46,26 +47,26 @@ export const FinishUp = () => {
                 <div className="">
 
                 </div>
-                    <div className={`border-b border-gray-300 flex items-center justify-between px-3 w-full bg-gray-100 outline outline-offset-0 outline-0 mt-1 h-20 rounded-t-lg`}>
-                        <div className="flex items-center">
-                            <div className={``}>
-                                <span className='font-semibold text-blue-900'>
-                                    {currentPlan.name} {currentPlan.monthlyBill ? "(Monthly)" : "(Yearly)"}
-                                </span>
-                                <span onClick={handleChangeMonthlyBilling} className='text-gray-500 flex flex-col cursor-pointer underline underline-offset-1'>
-                                    Change
-                                </span>
-                            </div>
-                        </div>
-                        <div className=''>
-                            <span className='text-blue-900 font-semibold flex flex-col'>
-                                ${currentPlan.monthlyBill ? currentPlan.price : currentPlan.price * 10}
-                                {
-                                    currentPlan.monthlyBill ? "/mo" : "/yr"
-                                }
+                <div className={`border-b border-gray-300 flex items-center justify-between px-3 w-full bg-gray-100 outline outline-offset-0 outline-0 mt-1 h-20 rounded-t-lg`}>
+                    <div className="flex items-center">
+                        <div className={``}>
+                            <span className='font-semibold text-blue-900'>
+                                {currentPlan.name} {currentPlan.monthlyBill ? "(Monthly)" : "(Yearly)"}
+                            </span>
+                            <span onClick={handleChangeMonthlyBilling} className='text-gray-500 flex flex-col cursor-pointer underline underline-offset-1'>
+                                Change
                             </span>
                         </div>
                     </div>
+                    <div className=''>
+                        <span className='text-blue-900 font-semibold flex flex-col'>
+                            ${currentPlan.monthlyBill ? currentPlan.price : currentPlan.price * 10}
+                            {
+                                currentPlan.monthlyBill ? "/mo" : "/yr"
+                            }
+                        </span>
+                    </div>
+                </div>
                 {currentPlan.addOns.map((addOn, index) => (
                     addOn.selected && <RecieptRows key={addOn.name} name={addOn.name} price={addOn.price} monthlyBill={currentPlan.monthlyBill} index={index} activeAmountServices={activeAmountServices} />
                 ))}
@@ -76,7 +77,7 @@ export const FinishUp = () => {
                         </span>
                     </div>
                     <span className='text-blue-900 font-semibold'>
-                        +${currentPlan.monthlyBill ? (currentPlan.price + totalAddOnPrice) : (currentPlan.price * 10) + (totalAddOnPrice * 10)}
+                        +${currentPlan.monthlyBill ? ((currentPlan.price) + totalAddOnPrice) : (currentPlan.price * 10) + (totalAddOnPrice * 10)}
                         {
                             currentPlan.monthlyBill ? "/mo" : "/yr"
                         }
