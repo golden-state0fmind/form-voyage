@@ -22,7 +22,7 @@ const CustomCircle: React.FC<ICustomCircle> = ({ step, activeStep }) => {
     }, [activeStep]);
 
     return (
-        <div id={`step-${step}`} className="custom-circle">
+        <div id={`step-${step}`} className={`custom-circle`}>
             {step}
         </div>
     );
