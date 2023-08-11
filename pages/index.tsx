@@ -11,21 +11,18 @@ import { ThankYou } from '@/app/components/ThankYou';
 export default function Home() {
     const totalSteps = 4;
     const customCircles = [];
-    const desktopCustomCircles = [];
+    const dtCustomCircles = [];
     const currentStep = useAppSelector(state => state.stepTracker.value)
 
     for (let step = 1; step <= totalSteps; step++) {
         customCircles.push(
             <CustomCircle key={step} step={step} activeStep={currentStep} />
         );
-    }
-
-    for (let step = 1; step <= totalSteps; step++) {
-        desktopCustomCircles.push(
-            <div style={{ position: 'absolute', top: `${(step) * 20}%` }} >
+        dtCustomCircles.push(
+            <div style={{ position: 'absolute', top: `${step * 20}%` }}>
                 <CustomCircle key={step} step={step} activeStep={currentStep} />
             </div>
-        );
+        )
     }
 
     return (
@@ -47,7 +44,7 @@ export default function Home() {
             </div>
 
             <main className="flex flex-col items-center p-4">
-                <div className="bg-white rounded-lg shadow-lg min-h-full min-w-full pb-4 md:flex">
+                <div className="bg-white rounded-lg shadow-lg min-h-full max-w-screen-lg pb-4 md:flex">
                     <div
                         id="desktop-sidebar"
                         className="hidden md:block md:w-1/3 relative ps-4 pt-4"
@@ -60,7 +57,7 @@ export default function Home() {
                             height={200}
                         />
                         <div className="flex md:flex-col absolute top-0 left-0 right-0 bottom-0 justify-between items-center">
-                            {desktopCustomCircles}
+                            {dtCustomCircles}
                         </div>
                     </div>
 

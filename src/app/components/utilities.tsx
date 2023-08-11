@@ -9,20 +9,23 @@ interface ICustomCircle {
 }
 
 const CustomCircle: React.FC<ICustomCircle> = ({ step, activeStep }) => {
+    const isActive = step === activeStep;
 
     useEffect(() => {
-        const stepAsDiv = document.getElementById(`step-${step}`);
-        if (stepAsDiv) {
-            if (step === activeStep) {
-                stepAsDiv.setAttribute('active', '');
+        const stepElements = document.getElementsByClassName(`step-${step}`);
+        const elementsArray = Array.from(stepElements);
+
+        for (const element of elementsArray) {
+            if (isActive) {
+                element.setAttribute('active', '');
             } else {
-                stepAsDiv.removeAttribute('active');
+                element.removeAttribute('active');
             }
         }
-    }, [activeStep]);
+    }, [isActive]);
 
     return (
-        <div id={`step-${step}`} className={`custom-circle`}>
+        <div className={`custom-circle step-${step} ${isActive ? 'active' : ''}`}>
             {step}
         </div>
     );
